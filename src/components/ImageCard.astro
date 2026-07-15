@@ -10,7 +10,7 @@ const { src, alt, subheading, class: className = "" } = Astro.props;
 import { Image } from "astro:assets";
 ---
 
-<div class={`relative overflow-hidden rounded-xl ${className}`}>
+<div class={`relative overflow-hidden rounded-md ${className}`}>
   <Image src={src} alt={alt} class="h-full w-full object-cover" />
   <div
     class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"
