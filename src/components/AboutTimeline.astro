@@ -32,14 +32,18 @@ const timeline: TimelineEntry[] = [
 const arcFractions = [1, 0.65, 0.9, 0.5, 0.7];
 
 import { Image } from "astro:assets";
-import darkLogoImage from "../assets/logo-dark.png"
+import darkLogoImage from "../assets/logo-dark.png";
 ---
 
 <section class="relative bg-black px-8 py-24 text-white md:px-16">
   <about-timeline>
-    <div class="mx-auto grid max-w-[1336px] items-center gap-16 md:grid-cols-[220px_1fr] lg:grid-cols-[220px_1fr_420px]">
+    <div
+      class="mx-auto grid max-w-[1336px] items-center gap-16 md:grid-cols-[220px_1fr] lg:grid-cols-[220px_1fr_420px]"
+    >
       <!-- Year buttons column -->
-      <div class="relative flex flex-row gap-8 overflow-x-auto pb-2 md:flex-col md:items-center md:gap-14 md:overflow-visible md:pb-0">
+      <div
+        class="relative flex flex-row gap-8 overflow-x-auto pb-2 md:flex-col md:items-center md:gap-14 md:overflow-visible md:pb-0"
+      >
         {
           timeline.map((entry, i) => {
             const r = 46;
@@ -49,7 +53,7 @@ import darkLogoImage from "../assets/logo-dark.png"
             return (
               <button
                 type="button"
-                class="year-btn relative z-10 flex shrink-0 items-center justify-center rounded-full transition-all duration-300 cursor-pointer"
+                class="year-btn relative z-10 flex shrink-0 cursor-pointer items-center justify-center rounded-full transition-all duration-300"
                 data-index={i}
                 aria-pressed={i === 0 ? "true" : "false"}
               >
@@ -82,11 +86,19 @@ import darkLogoImage from "../assets/logo-dark.png"
         <h2 class="text-4xl font-light text-[var(--color-accent)]">About us</h2>
         <hr class="mt-6 border-white/15" />
 
-        <div class="content-panel mt-10 max-w-[620px] transition-opacity duration-300">
-          <h3 class="content-year text-3xl font-light text-white" data-content-year>
+        <div
+          class="content-panel mt-10 max-w-[620px] transition-opacity duration-300"
+        >
+          <h3
+            class="content-year text-3xl font-light text-white"
+            data-content-year
+          >
             {timeline[0].year}
           </h3>
-          <p class="content-text mt-6 text-base leading-relaxed text-white/70" data-content-text>
+          <p
+            class="content-text mt-6 text-base leading-relaxed text-white/70"
+            data-content-text
+          >
             {timeline[0].text}
           </p>
         </div>
@@ -102,7 +114,11 @@ import darkLogoImage from "../assets/logo-dark.png"
       </div>
     </div>
 
-    <script type="application/json" data-timeline set:html={JSON.stringify(timeline)} />
+    <script
+      type="application/json"
+      data-timeline
+      set:html={JSON.stringify(timeline)}
+    />
   </about-timeline>
 </section>
 
@@ -150,9 +166,11 @@ import darkLogoImage from "../assets/logo-dark.png"
 
     connectedCallback() {
       const dataScript = this.querySelector<HTMLScriptElement>(
-        "script[data-timeline]"
+        "script[data-timeline]",
       );
-      this.timeline = dataScript ? JSON.parse(dataScript.textContent || "[]") : [];
+      this.timeline = dataScript
+        ? JSON.parse(dataScript.textContent || "[]")
+        : [];
       this.buttons = this.querySelectorAll(".year-btn");
       this.yearEl = this.querySelector("[data-content-year]")!;
       this.textEl = this.querySelector("[data-content-text]")!;

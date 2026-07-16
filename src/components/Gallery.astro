@@ -17,7 +17,7 @@ const images = [
 
 <section class="relative overflow-hidden px-8 py-20 text-white md:px-16">
   <h2
-    class="mb-14 text-center text-4xl font-light uppercase tracking-[0.35em] text-[var(--color-accent)]"
+    class="mb-14 text-center text-4xl font-light tracking-[0.35em] text-[var(--color-accent)] uppercase"
   >
     Gallery
   </h2>
@@ -26,20 +26,36 @@ const images = [
     <!-- Arrow buttons -->
     <button
       type="button"
-      class="gallery-prev absolute left-2 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full border border-white/20 bg-black/40 p-3 backdrop-blur-sm transition hover:bg-black/70 md:left-4"
+      class="gallery-prev absolute top-1/2 left-2 z-20 -translate-y-1/2 cursor-pointer rounded-full border border-white/20 bg-black/40 p-3 backdrop-blur-sm transition hover:bg-black/70 md:left-4"
       aria-label="Previous image"
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"
+        ></path>
       </svg>
     </button>
     <button
       type="button"
-      class="gallery-next absolute right-2 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full border border-white/20 bg-black/40 p-3 backdrop-blur-sm transition hover:bg-black/70 md:right-4"
+      class="gallery-next absolute top-1/2 right-2 z-20 -translate-y-1/2 cursor-pointer rounded-full border border-white/20 bg-black/40 p-3 backdrop-blur-sm transition hover:bg-black/70 md:right-4"
       aria-label="Next image"
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round" />
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"
+        ></path>
       </svg>
     </button>
 
@@ -48,7 +64,7 @@ const images = [
       <div class="swiper-wrapper items-center">
         {
           images.map((img) => (
-            <div class="swiper-slide !w-[520px] !h-[420px] max-w-[85vw]">
+            <div class="swiper-slide !h-[420px] !w-[520px] max-w-[85vw]">
               <Image
                 src={img.src}
                 alt={img.alt}
@@ -64,8 +80,8 @@ const images = [
 
   <p class="mx-auto mt-14 max-w-[620px] text-sm leading-relaxed text-white/70">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-    veniam, quis nostrud exercitation
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation
   </p>
 </section>
 
