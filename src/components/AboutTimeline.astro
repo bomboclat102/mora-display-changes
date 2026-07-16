@@ -42,7 +42,7 @@ import darkLogoImage from "../assets/logo-dark.png";
     >
       <!-- Year buttons column -->
       <div
-        class="relative flex flex-row gap-8 overflow-x-auto pb-2 md:flex-col md:items-center md:gap-14 md:overflow-visible md:pb-0"
+        class="relative flex flex-row items-center scrollbar-none gap-8 overflow-x-auto overflow-y-hidden pb-2 md:flex-col md:gap-14 md:overflow-visible md:pb-0"
       >
         {
           timeline.map((entry, i) => {
@@ -123,24 +123,25 @@ import darkLogoImage from "../assets/logo-dark.png";
 </section>
 
 <style>
+  /* Mobile-first sizing (screens under 768px) */
   .year-btn {
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
   }
 
   .year-btn[aria-pressed="true"] {
-    width: 150px;
-    height: 150px;
+    width: 94px;
+    height: 94px;
+  }
+
+  .year-btn .year-label {
+    font-size: 0.875rem; /* ~14px */
   }
 
   .year-btn[aria-pressed="true"] .year-label {
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.125rem; /* ~18px (fits nicely inside the smaller mobile circle) */
     font-weight: 400;
-  }
-
-  .year-btn[aria-pressed="true"] .year-ring {
-    color: var(--color-accent);
   }
 
   .year-btn:not([aria-pressed="true"]) .year-ring {
@@ -153,6 +154,23 @@ import darkLogoImage from "../assets/logo-dark.png";
 
   .content-panel.is-fading {
     opacity: 0;
+  }
+
+  /* Desktop sizing (screens 768px and up) */
+  @media (min-width: 768px) {
+    .year-btn {
+      width: 90px;
+      height: 90px;
+    }
+
+    .year-btn[aria-pressed="true"] {
+      width: 150px;
+      height: 150px;
+    }
+
+    .year-btn[aria-pressed="true"] .year-label {
+      font-size: 1.5rem; /* Original 24px */
+    }
   }
 </style>
 
