@@ -1,0 +1,51 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import ProjectsMap from "../components/ProjectsMap.astro";
+import Gallery from "../components/Gallery.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Footer from "../components/Footer.astro";
+import heroVideo from "../assets/hero-slideshow.mp4";
+---
+
+<Layout title="Home">
+  <Header />
+
+  <section id="hero" class="relative h-screen w-full overflow-hidden bg-black">
+    <video
+      class="absolute inset-0 z-0 h-full w-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      data-hero-video
+    >
+      <source src={heroVideo} type="video/mp4" />
+    </video>
+
+    <div class="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_28%,rgba(0,0,0,0.55)_100%)]"></div>
+    <div class="pointer-events-none absolute inset-x-0 top-0 z-10 h-56 bg-gradient-to-b from-black via-black/80 to-transparent"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-64 bg-gradient-to-t from-black via-black/85 to-transparent"></div>
+  </section>
+
+  <div class="pt-12 md:pt-16">
+    <ProjectsMap />
+  </div>
+
+  <Gallery />
+
+  <ContactForm />
+
+  <Footer />
+</Layout>
+
+<script>
+  const heroVideo = document.querySelector<HTMLVideoElement>(
+    "[data-hero-video]",
+  );
+
+  if (heroVideo) {
+    heroVideo.playbackRate = 0.5;
+  }
+</script>

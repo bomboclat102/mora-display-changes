@@ -1,0 +1,226 @@
+---
+// Dot coordinates as % of image width/height
+const locations = [
+  {
+    id: "italy",
+    label: "Italy",
+    x: 49,
+    y: 40,
+    projects: [
+      { name: "EICMA", dates: "TBA", place: "Milano" },
+      { name: "Hyosung", dates: "TBA", place: "Milano" },
+      { name: "Hyundai", dates: "TBA", place: "Milano" },
+      { name: "Korean Airline", dates: "TBA", place: "Milano" },
+      { name: "MACEF", dates: "TBA", place: "Milano" },
+      { name: "ENERSOL", dates: "TBA", place: "Milano, Verona" },
+      { name: "BI-MU", dates: "TBA", place: "Milan" },
+      { name: "MCE", dates: "TBA", place: "Milano" },
+      { name: "SALONE DEL MOBILE", dates: "TBA", place: "Milan" },
+      { name: "WHITE SNOW", dates: "TBA", place: "Milan" },
+      { name: "HOST", dates: "TBA", place: "Milan" },
+      { name: "TUTTO FOOD", dates: "TBA", place: "Milano" },
+      { name: "SAPORI DELLA COREA", dates: "TBA", place: "Milano" },
+      { name: "KOSHI KOBA", dates: "TBA", place: "Milano" },
+      { name: "VENDITALIA", dates: "TBA", place: "Milan" },
+      { name: "LINEAPELLE", dates: "TBA", place: "Milan" },
+      { name: "MIDO", dates: "TBA", place: "Milan" },
+      { name: "WUWHS", dates: "TBA", place: "Florence" },
+      { name: "ISUOG", dates: "TBA", place: "Rome" },
+    ],
+  },
+  {
+    id: "germany",
+    label: "Germany",
+    x: 53.5,
+    y: 34,
+    projects: [
+      { name: "AGRITECH", dates: "TBA", place: "Hannover" },
+      { name: "ELECTRONICA", dates: "TBA", place: "Munich" },
+      { name: "INTERSOLAR", dates: "TBA", place: "Munich" },
+      { name: "TUBE", dates: "TBA", place: "Dusseldorf" },
+      { name: "A+A", dates: "TBA", place: "Dusseldorf" },
+      { name: "FA", dates: "TBA", place: "Frankfurt" },
+      { name: "MEDICA", dates: "TBA", place: "Dusseldorf" },
+      { name: "IDS", dates: "TBA", place: "Köln" },
+      { name: "EUROBIKE", dates: "TBA", place: "Friedrichshafen" },
+      { name: "OUTDOOR", dates: "TBA", place: "Friedrichshafen" },
+      { name: "CPHI", dates: "TBA", place: "Frankfurt" },
+    ],
+  },
+  {
+    id: "france",
+    label: "France",
+    x: 47.5,
+    y: 37,
+    projects: [
+      { name: "SILMO", dates: "TBA", place: "Paris" },
+      { name: "PREMIER VISION", dates: "TBA", place: "Paris" },
+      { name: "ADF", dates: "TBA", place: "Paris" },
+      { name: "MAISON OBJECT", dates: "TBA", place: "Paris" },
+      { name: "INTERCHARM", dates: "TBA", place: "Moscow" },
+      { name: "EUROSPINE", dates: "TBA", place: "Lyon, Dublin" },
+      { name: "PREMIERE VISION", dates: "TBA", place: "New York" },
+    ],
+  },
+  {
+    id: "iberia",
+    label: "Iberia",
+    x: 42.5,
+    y: 43,
+    projects: [
+      { name: "FOTOVOLTAIC", dates: "TBA", place: "Madrid" },
+      { name: "CPHI", dates: "TBA", place: "Madrid, Frankfurt" },
+      { name: "EAO", dates: "TBA", place: "Rome, Madrid, Vienna" },
+      { name: "EASD", dates: "TBA", place: "Lisbon" },
+      { name: "CCIB", dates: "TBA", place: "Barcelona" },
+      { name: "Bookfair", dates: "TBA", place: "Leipzig" },
+    ],
+  },
+  {
+    id: "usa",
+    label: "USA",
+    x: 26.5,
+    y: 36,
+    projects: [
+      { name: "OUTDOOR Retailers", dates: "TBA", place: "Denver" },
+      { name: "PREMIERE VISION", dates: "TBA", place: "New York" },
+      { name: "Bookfair", dates: "TBA", place: "Leipzig" },
+    ],
+  },
+  {
+    id: "asia",
+    label: "Asia",
+    x: 83,
+    y: 41,
+    projects: [
+      { name: "Korean Airline", dates: "TBA", place: "Milano" },
+      { name: "Hyosung", dates: "TBA", place: "Milano" },
+      { name: "Hyundai", dates: "TBA", place: "Milano" },
+      { name: "DENTIUM World Forum", dates: "TBA", place: "Budapest" },
+      { name: "EWMA", dates: "TBA", place: "Netherlands" },
+      { name: "Luxpack", dates: "TBA", place: "Monaco" },
+      { name: "SLOWFOOD", dates: "TBA", place: "Turin" },
+    ],
+  },
+];
+
+import { Image } from "astro:assets";
+import mapImage from "../assets/images/map.png";
+---
+
+<section id="projects" class="relative mx-auto max-w-[1336px] px-8 py-20 text-white md:px-16">
+  <projects-map>
+    <div class="relative mx-auto aspect-[4096/2304] w-full">
+      <Image
+        src={mapImage}
+        alt="World map showing project locations"
+        class="absolute inset-0 h-full w-full object-contain"
+      />
+
+      {
+        locations.map((loc) => (
+          <button
+            type="button"
+            class="map-dot absolute h-[15px] w-[15px] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-[#ffa500] transition-transform duration-150 hover:scale-125 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            style={`left:${loc.x}%; top:${loc.y}%`}
+            data-id={loc.id}
+            aria-label={`View projects in ${loc.label}`}
+          />
+        ))
+      }
+    </div>
+
+    <div class="mt-12">
+      <h2 class="projects-heading text-5xl font-thin text-[var(--color-accent)]">
+        Projects
+      </h2>
+
+      <div
+        class="projects-list mt-2 max-w-[520px] text-sm leading-relaxed text-white/70"
+      >
+        <p data-default-text>
+          Select a location on the map to view the fairs associated with it.
+        </p>
+      </div>
+    </div>
+
+    <script
+      type="application/json"
+      data-locations
+      set:html={JSON.stringify(locations)}
+    />
+  </projects-map>
+</section>
+
+<style>
+  .map-dot.is-active {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35);
+  }
+</style>
+
+<script>
+  class ProjectsMap extends HTMLElement {
+    private locations: Array<{
+      id: string;
+      label: string;
+      projects: { name: string; dates: string; place: string }[];
+    }> = [];
+    private listEl!: HTMLElement;
+    private dots!: NodeListOf<HTMLButtonElement>;
+
+    connectedCallback() {
+      const dataScript = this.querySelector<HTMLScriptElement>(
+        "script[data-locations]",
+      );
+      this.locations = dataScript
+        ? JSON.parse(dataScript.textContent || "[]")
+        : [];
+      this.listEl = this.querySelector(".projects-list")!;
+      this.dots = this.querySelectorAll(".map-dot");
+
+      this.dots.forEach((dot) => {
+        dot.addEventListener("click", () =>
+          this.selectLocation(dot.dataset.id!),
+        );
+      });
+    }
+
+    selectLocation(id: string) {
+      this.dots.forEach((d) =>
+        d.classList.toggle("is-active", d.dataset.id === id),
+      );
+
+      const loc = this.locations.find((l) => l.id === id);
+      if (!loc) return;
+
+      const projectColumns = [] as typeof loc.projects[];
+      for (let index = 0; index < loc.projects.length; index += 8) {
+        projectColumns.push(loc.projects.slice(index, index + 8));
+      }
+
+      this.listEl.innerHTML = `
+        <h3 class="mb-3 text-2xl font-medium text-white">${loc.label}</h3>
+        <div class="grid gap-8 ${projectColumns.length > 1 ? "sm:grid-cols-2" : ""}">
+          ${projectColumns
+            .map(
+              (column) => `
+            <ul class="space-y-2">
+              ${column
+                .map(
+                  (p) => `
+                <li class="border-b border-white/10 pb-2">
+                  <span class="block font-medium text-white">${p.name}</span>
+                  <span class="block text-white/50">${p.place}</span>
+                </li>`,
+                )
+                .join("")}
+            </ul>`,
+            )
+            .join("")}
+        </div>
+      `;
+    }
+  }
+
+  customElements.define("projects-map", ProjectsMap);
+</script>
