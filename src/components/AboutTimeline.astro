@@ -1,223 +1,155 @@
 ---
-interface TimelineEntry {
+interface Event {
   year: string;
-  text: string;
+  side: "top" | "bottom";
+  x: number; // % position along the timeline
+  dotSize: number; // px
+  stemLength: number; // px, connector line from axis to text block
+  html: string; // description, may include inline accent spans
 }
 
-const timeline: TimelineEntry[] = [
+const events: Event[] = [
   {
-    year: "1295",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    year: "2005",
+    side: "bottom",
+    x: 0,
+    dotSize: 18,
+    stemLength: 150,
+    html: `<p>Established Moradisplay in Italy, marking the beginning of our exhibition design and construction business.</p>`,
   },
   {
-    year: "1362",
-    text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    year: "2007",
+    side: "top",
+    x: 7.9,
+    dotSize: 46,
+    stemLength: 150,
+    html: `<p>Expanded operations beyond Italy into other European countries.</p>`,
   },
   {
-    year: "1481",
-    text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+    year: "2013",
+    side: "bottom",
+    x: 14.9,
+    dotSize: 26,
+    stemLength: 60,
+    html: `<p>Began designing and constructing Korea Pavilion projects for international exhibitions.</p>
+          <p>And founded Moradisplay Co., Ltd. in South Korea.</p>`,
   },
   {
-    year: "1587",
-    text: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+    year: "2020",
+    side: "top",
+    x: 22.2,
+    dotSize: 26,
+    stemLength: 60,
+    html: `<p>Renamed the company to <span class="text-[var(--color-accent)]">Designstock</span>.</p>
+          <p>Started international import and export operations.</p>`,
   },
   {
-    year: "1699",
-    text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
+    year: "2023",
+    side: "bottom",
+    x: 46.8,
+    dotSize: 46,
+    stemLength: 170,
+    html: `<p>Major International Korean Pavilion Projects: in Russia and other various countries</p>`,
+  },
+  {
+    year: "2024",
+    side: "top",
+    x: 57.6,
+    dotSize: 46,
+    stemLength: 60,
+    html: `<p>Completed the design and construction of a 360 m&sup2; custom exhibition stand.</p>`,
+  },
+  {
+    year: "2026",
+    side: "bottom",
+    x: 70.8,
+    dotSize: 34,
+    stemLength: 60,
+    html: `<p>Renamed the company to Interstock.</p>
+          <p>Established specialized business divisions:</p>
+          <ul class="mt-1 list-disc pl-4 marker:text-[var(--color-accent)]">
+            <li><span class="text-[var(--color-accent)]">Moradisplay</span> – Exhibition Design &amp; Construction</li>
+            <li><span class="text-[var(--color-accent)]">Interstock</span> – International Trading</li>
+          </ul>`,
   },
 ];
-
-// Per-button arc gap sizes (fraction of circle drawn), tuned to loosely
-// echo the varied partial-rings in the reference screenshot.
-const arcFractions = [1, 0.65, 0.9, 0.5, 0.7];
-
-import { Image } from "astro:assets";
-import darkLogoImage from "../assets/logo-dark.png";
 ---
 
-<section class="relative bg-black px-8 py-24 text-white md:px-16">
-  <about-timeline>
-    <div
-      class="mx-auto grid max-w-[1336px] items-center gap-16 md:grid-cols-[220px_1fr] lg:grid-cols-[220px_1fr_420px]"
-    >
-      <!-- Year buttons column -->
+<section class="relative overflow-hidden bg-black px-8 py-24 text-white lg:px-16">
+  <div class="mx-auto max-w-[1336px]">
+    <h2 class="text-5xl font-thin text-[var(--color-accent)]">History</h2>
+
+    <!-- Desktop: horizontal timeline -->
+    <div class="relative mx-auto mt-24 hidden h-[420px] w-full lg:block">
+      <!-- Axis line -->
       <div
-        class="relative flex scrollbar-none flex-row items-center gap-8 overflow-x-auto overflow-y-hidden pb-2 md:flex-col md:gap-14 md:overflow-visible md:pb-0"
+        class="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-[var(--color-accent)]/50"
       >
-        {
-          timeline.map((entry, i) => {
-            const r = 46;
-            const circumference = 2 * Math.PI * r;
-            const dash = circumference * arcFractions[i];
-            const gap = circumference - dash;
-            return (
-              <button
-                type="button"
-                class="year-btn relative z-10 flex shrink-0 cursor-pointer items-center justify-center rounded-full transition-all duration-300"
-                data-index={i}
-                aria-pressed={i === 0 ? "true" : "false"}
-              >
-                <svg
-                  viewBox="0 0 100 100"
-                  class="year-ring absolute inset-0 h-full w-full -rotate-45 text-[var(--color-accent)]"
-                >
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r={r}
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1"
-                    stroke-dasharray={`${dash} ${gap}`}
-                    stroke-linecap="round"
-                  />
-                </svg>
-                <span class="year-label relative text-sm font-light text-white/50 transition-colors duration-300">
-                  {entry.year}
-                </span>
-              </button>
-            );
-          })
-        }
       </div>
 
-      <!-- Content column -->
-      <div>
-        <h2 class="text-4xl font-light text-[var(--color-accent)]">About us</h2>
-        <hr class="mt-6 border-white/15" />
-
-        <div
-          class="content-panel mt-10 max-w-[620px] transition-opacity duration-300"
-        >
-          <h3
-            class="content-year text-3xl font-light text-white"
-            data-content-year
+      {
+        events.map((ev) => (
+          <div
+            class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={`left:${ev.x}%;`}
           >
-            {timeline[0].year}
-          </h3>
-          <p
-            class="content-text mt-6 text-base leading-relaxed text-white/70"
-            data-content-text
-          >
-            {timeline[0].text}
-          </p>
-        </div>
-      </div>
+            {/* Dot */}
+            <div
+              class="rounded-full bg-[var(--color-accent)]/50"
+              style={`width:${ev.dotSize}px; height:${ev.dotSize}px;`}
+            />
 
-      <!-- Logo column (desktop only) -->
-      <div class="hidden items-center justify-center lg:flex">
-        <Image
-          src={darkLogoImage}
-          alt="Company logo"
-          class="w-full max-w-[420px] object-contain opacity-30"
-        />
-      </div>
+            {/* Stem connecting dot to text block */}
+            <div
+              class={`absolute left-1/2 w-px -translate-x-1/2 bg-[var(--color-accent)]/60 ${
+                ev.side === "top" ? "bottom-1/2" : "top-1/2"
+              }`}
+              style={`height:${ev.stemLength}px;`}
+            />
+
+            {/* Year label */}
+            <span
+              class={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-2xl font-light text-[var(--color-accent)] py-2 bg-black ${
+                ev.side === "top"
+                  ? "bottom-[calc(50%+32px)]"
+                  : "top-[calc(50%+32px)]"
+              }`}
+            >
+              {ev.year}
+            </span>
+
+            {/* Description */}
+            <div
+              class={`absolute w-[400px] text-sm leading-relaxed text-white/80 ${
+                ev.side === "top" ? "left-0" : "left-0"
+              }`}
+              style={
+                ev.side === "top"
+                  ? `bottom: calc(50% + ${ev.stemLength + 20}px);`
+                  : `top: calc(50% + ${ev.stemLength + 20}px);`
+              }
+              set:html={ev.html}
+            />
+          </div>
+        ))
+      }
     </div>
 
-    <script
-      type="application/json"
-      data-timeline
-      set:html={JSON.stringify(timeline)}
-    />
-  </about-timeline>
+    <!-- Mobile: vertical stacked list -->
+    <div class="relative mt-16 flex flex-col gap-10 lg:hidden">
+      <div class="absolute bottom-0 left-[11px] top-0 w-px bg-[var(--color-accent)]/50"></div>
+
+      {
+        events.map((ev) => (
+          <div class="relative pl-8">
+            <div
+              class="absolute left-0 top-1 rounded-full w-6 h-6 bg-[var(--color-accent)]/50"
+            />
+            <span class="text-xl font-light text-[var(--color-accent)]">{ev.year}</span>
+            <div class="mt-2 text-sm leading-relaxed text-white/80" set:html={ev.html} />
+          </div>
+        ))
+      }
+    </div>
+  </div>
 </section>
-
-<style>
-  /* Mobile-first sizing (screens under 768px) */
-  .year-btn {
-    width: 60px;
-    height: 60px;
-  }
-
-  .year-btn[aria-pressed="true"] {
-    width: 94px;
-    height: 94px;
-  }
-
-  .year-btn .year-label {
-    font-size: 0.875rem; /* ~14px */
-  }
-
-  .year-btn[aria-pressed="true"] .year-label {
-    color: white;
-    font-size: 1.125rem; /* ~18px (fits nicely inside the smaller mobile circle) */
-    font-weight: 400;
-  }
-
-  .year-btn:not([aria-pressed="true"]) .year-ring {
-    opacity: 0.35;
-  }
-
-  .year-btn:hover .year-label {
-    color: white;
-  }
-
-  .content-panel.is-fading {
-    opacity: 0;
-  }
-
-  /* Desktop sizing (screens 768px and up) */
-  @media (min-width: 768px) {
-    .year-btn {
-      width: 90px;
-      height: 90px;
-    }
-
-    .year-btn[aria-pressed="true"] {
-      width: 150px;
-      height: 150px;
-    }
-
-    .year-btn[aria-pressed="true"] .year-label {
-      font-size: 1.5rem; /* Original 24px */
-    }
-  }
-</style>
-
-<script>
-  class AboutTimeline extends HTMLElement {
-    private timeline: { year: string; text: string }[] = [];
-    private buttons!: NodeListOf<HTMLButtonElement>;
-    private yearEl!: HTMLElement;
-    private textEl!: HTMLElement;
-    private panelEl!: HTMLElement;
-
-    connectedCallback() {
-      const dataScript = this.querySelector<HTMLScriptElement>(
-        "script[data-timeline]",
-      );
-      this.timeline = dataScript
-        ? JSON.parse(dataScript.textContent || "[]")
-        : [];
-      this.buttons = this.querySelectorAll(".year-btn");
-      this.yearEl = this.querySelector("[data-content-year]")!;
-      this.textEl = this.querySelector("[data-content-text]")!;
-      this.panelEl = this.querySelector(".content-panel")!;
-
-      this.buttons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const index = Number(btn.dataset.index);
-          this.selectYear(index);
-        });
-      });
-    }
-
-    selectYear(index: number) {
-      const entry = this.timeline[index];
-      if (!entry) return;
-
-      this.buttons.forEach((btn, i) => {
-        btn.setAttribute("aria-pressed", String(i === index));
-      });
-
-      this.panelEl.classList.add("is-fading");
-      window.setTimeout(() => {
-        this.yearEl.textContent = entry.year;
-        this.textEl.textContent = entry.text;
-        this.panelEl.classList.remove("is-fading");
-      }, 180);
-    }
-  }
-
-  customElements.define("about-timeline", AboutTimeline);
-</script>

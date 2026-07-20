@@ -1,0 +1,212 @@
+---
+interface Node {
+  id: string;
+  title: string;
+  lines: string[];
+  x: number;
+  y: number;
+  size: number;
+  ringGapOffset: number;
+  notchAngle: number; // degrees around the circle where the black bite sits
+  notchSize: number; // px diameter of the black overlapping circle
+}
+
+const nodes: Node[] = [
+  {
+    id: "expertise",
+    title: "Expertise",
+    lines: ["20+ yrs", "20+ years of practical experience"],
+    x: 22.4,
+    y: 44.7,
+    size: 168,
+    ringGapOffset: 40,
+    notchAngle: 15,
+    notchSize: 40,
+  },
+  {
+    id: "communication",
+    title: "Communication",
+    lines: ["Language", "Project management in four languages"],
+    x: 48.1,
+    y: 29.3,
+    size: 168,
+    ringGapOffset: 150,
+    notchAngle: 195,
+    notchSize: 44,
+  },
+  {
+    id: "infrastructure",
+    title: "infrastructure",
+    lines: ["EU net", "Europe-wide network"],
+    x: 78.9,
+    y: 39.3,
+    size: 168,
+    ringGapOffset: 210,
+    notchAngle: 250,
+    notchSize: 38,
+  },
+  {
+    id: "supervision",
+    title: "Supervison",
+    lines: ["HQ in EU", "supervision from our European headquarter"],
+    x: 32.5,
+    y: 73.9,
+    size: 168,
+    ringGapOffset: 260,
+    notchAngle: 45,
+    notchSize: 42,
+  },
+  {
+    id: "partners",
+    title: "Partners",
+    lines: ["20+ Partners", "A network of 20+ partner companies"],
+    x: 52.7,
+    y: 62.4,
+    size: 168,
+    ringGapOffset: 0,
+    notchAngle: 335,
+    notchSize: 60,
+  },
+  {
+    id: "consulting",
+    title: "Consulting",
+    lines: ["Tech advisory", "technical and construction consulting"],
+    x: 72.3,
+    y: 76.6,
+    size: 168,
+    ringGapOffset: 100,
+    notchAngle: 300,
+    notchSize: 40,
+  },
+];
+
+const connections: [string, string][] = [
+  ["expertise", "communication"],
+  ["communication", "infrastructure"],
+  ["expertise", "supervision"],
+  ["supervision", "partners"],
+  ["partners", "communication"],
+  ["partners", "infrastructure"],
+  ["partners", "consulting"],
+  ["supervision", "consulting"],
+];
+
+const nodeMap = Object.fromEntries(nodes.map((n) => [n.id, n]));
+---
+
+<section class="relative overflow-hidden bg-black px-8 py-24 text-white md:px-16">
+  <div class="mx-auto max-w-[1336px]">
+    <h2 class="text-4xl font-light text-[var(--color-accent)]">Our strengths</h2>
+
+    <!-- Desktop: spatial diagram -->
+    <div class="relative mx-auto mt-16 hidden h-[620px] w-full max-w-[1137px] md:block">
+      <svg
+        class="pointer-events-none absolute inset-0 h-full w-full"
+        viewBox="0 0 1137 620"
+        preserveAspectRatio="none"
+        fill="none"
+      >
+        {
+          connections.map(([fromId, toId]) => {
+            const from = nodeMap[fromId];
+            const to = nodeMap[toId];
+            return (
+              <line
+                x1={(from.x / 100) * 1137}
+                y1={(from.y / 100) * 620}
+                x2={(to.x / 100) * 1137}
+                y2={(to.y / 100) * 620}
+                stroke="var(--color-accent)"
+                stroke-width="1"
+                opacity="0.6"
+              />
+            );
+          })
+        }
+      </svg>
+
+      {
+        nodes.map((node) => (
+          <div
+            class="absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-center"
+            style={`left:${node.x}%; top:${node.y}%; width:${node.size}px; height:${node.size}px;`}
+          >
+            {/* Base filled circle */}
+            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-[#8a3d10] to-[#5c2a0c]" />
+
+            {/* Black "bite" circle, overlapping the edge, same color as page bg */}
+            <div
+              class="absolute rounded-full bg-black"
+              style={`
+                width: ${node.notchSize}px;
+                height: ${node.notchSize}px;
+                top: 50%;
+                left: 50%;
+                transform:
+                  rotate(${node.notchAngle}deg)
+                  translate(${node.size / 2}px)
+                  rotate(-${node.notchAngle}deg)
+                  translate(-50%, -50%);
+              `}
+            />
+
+            {/* Partial ring outline */}
+            <svg viewBox="0 0 100 100" class="absolute -inset-3 h-[calc(100%+24px)] w-[calc(100%+24px)]">
+              <circle
+                cx="50"
+                cy="50"
+                r="47"
+                fill="none"
+                stroke="var(--color-accent)"
+                stroke-width="1"
+                stroke-dasharray="220 75"
+                stroke-dashoffset={-node.ringGapOffset}
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <div class="relative z-10 px-4">
+              <h3 class="text-base font-medium text-white">{node.title}</h3>
+              {node.lines.map((line) => (
+                <p class="mt-1 text-xs leading-snug text-white/70">{line}</p>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Mobile: stacked list, no diagram -->
+    <div class="mt-12 flex flex-col gap-4 md:hidden">
+      {
+        nodes.map((node) => (
+          <div class="flex items-center gap-4 rounded-lg border border-white/10 p-4">
+            <div class="relative h-16 w-16 shrink-0">
+              <div class="absolute inset-0 rounded-full bg-gradient-to-br from-[#8a3d10] to-[#5c2a0c]" />
+              <div
+                class="absolute rounded-full bg-black"
+                style={`
+                  width: ${node.notchSize * 0.4}px;
+                  height: ${node.notchSize * 0.4}px;
+                  top: 50%;
+                  left: 50%;
+                  transform:
+                    rotate(${node.notchAngle}deg)
+                    translate(32px)
+                    rotate(-${node.notchAngle}deg)
+                    translate(-50%, -50%);
+                `}
+              />
+            </div>
+            <div>
+              <h3 class="text-base font-medium text-white">{node.title}</h3>
+              {node.lines.map((line) => (
+                <p class="mt-1 text-xs leading-snug text-white/70">{line}</p>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
