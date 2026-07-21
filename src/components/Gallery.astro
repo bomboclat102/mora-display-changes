@@ -15,11 +15,12 @@ const images = [
 ];
 ---
 
-<section class="relative overflow-hidden px-8 py-20 text-white md:px-16">
+<section class="relative overflow-hidden px-8 py-32 text-white md:px-16">
   <h2
-    class="mb-14 text-center text-5xl font-thin text-[var(--color-accent)]"
+    id="gallery"
+    class="font-heading text-accent mb-14 text-center text-5xl font-thin"
   >
-    GALLERY
+    Gallery
   </h2>
 
   <div class="gallery-carousel relative mx-auto max-w-[1100px]">
@@ -77,12 +78,6 @@ const images = [
       </div>
     </div>
   </div>
-
-  <p class="mx-auto mt-14 max-w-[620px] text-xl text-white/70">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation
-  </p>
 </section>
 
 <style>
@@ -114,7 +109,7 @@ const images = [
     const swiper = new Swiper(swiperEl, {
       modules: [Navigation, FreeMode, Mousewheel],
       slidesPerView: "auto",
-      initialSlide: 2,
+      initialSlide: 0,
       centeredSlides: true,
       spaceBetween: 24,
       grabCursor: true,

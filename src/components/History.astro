@@ -1,0 +1,160 @@
+---
+interface Event {
+  year: string;
+  side: "top" | "bottom";
+  x: number; // % position along the timeline
+  dotSize: number; // px
+  stemLength: number; // px, connector line from axis to text block
+  html: string; // description, may include inline accent spans
+}
+
+const events: Event[] = [
+  {
+    year: "2005",
+    side: "bottom",
+    x: 0,
+    dotSize: 18,
+    stemLength: 200,
+    html: `<p>Established Moradisplay in Italy, marking the beginning of our exhibition design and construction business.</p>`,
+  },
+  {
+    year: "2007",
+    side: "top",
+    x: 7.9,
+    dotSize: 46,
+    stemLength: 150,
+    html: `<p>Expanded operations beyond Italy into other European countries.</p>`,
+  },
+  {
+    year: "2013",
+    side: "bottom",
+    x: 14.9,
+    dotSize: 26,
+    stemLength: 60,
+    html: `<p>Began designing and constructing Korea Pavilion projects for international exhibitions.</p>
+          <p>And founded Moradisplay Co., Ltd. in South Korea.</p>`,
+  },
+  {
+    year: "2020",
+    side: "top",
+    x: 22.2,
+    dotSize: 26,
+    stemLength: 60,
+    html: `<p>Renamed the company to <span class="text-accent">Designstock</span>.</p>
+          <p>Started international import and export operations.</p>`,
+  },
+  {
+    year: "2023",
+    side: "bottom",
+    x: 46.8,
+    dotSize: 46,
+    stemLength: 200,
+    html: `<p>Major International Korean Pavilion Projects: in Russia and other various countries</p>`,
+  },
+  {
+    year: "2024",
+    side: "top",
+    x: 57.6,
+    dotSize: 46,
+    stemLength: 60,
+    html: `<p>Completed the design and construction of a 360 m&sup2; custom exhibition stand.</p>`,
+  },
+  {
+    year: "2026",
+    side: "bottom",
+    x: 70.8,
+    dotSize: 34,
+    stemLength: 60,
+    html: `<p>Renamed the company to Interstock.</p>
+          <p>Established specialized business divisions:</p>
+          <ul class="mt-1 list-disc pl-4 marker:text-accent">
+            <li><span class="text-accent">Moradisplay</span> – Exhibition Design &amp; Construction</li>
+            <li><span class="text-accent">Interstock</span> – International Trading</li>
+          </ul>`,
+  },
+];
+---
+
+<section
+  class="relative overflow-hidden bg-black px-8 py-16 text-white lg:px-16 lg:pt-48 lg:pb-72"
+>
+  <div class="mx-auto max-w-[1336px]">
+    <h2 id="history" class="font-heading text-accent text-5xl font-thin">
+      History
+    </h2>
+
+    <!-- Desktop: horizontal timeline -->
+    <div class="relative mx-auto mt-24 hidden h-[420px] w-full lg:block">
+      <!-- Axis line -->
+      <div
+        class="bg-accent/50 absolute top-1/2 right-0 left-0 h-px -translate-y-1/2"
+      >
+      </div>
+
+      {
+        events.map((ev) => (
+          <div
+            class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={`left:${ev.x}%;`}
+          >
+            {/* Dot */}
+            <div
+              class="bg-accent/50 rounded-full"
+              style={`width:${ev.dotSize}px; height:${ev.dotSize}px;`}
+            />
+
+            {/* Stem connecting dot to text block */}
+            <div
+              class={`bg-accent/60 absolute left-1/2 w-px -translate-x-1/2 ${
+                ev.side === "top" ? "bottom-1/2" : "top-1/2"
+              }`}
+              style={`height:${ev.stemLength}px;`}
+            />
+
+            {/* Year label */}
+            <span
+              class={`text-accent absolute left-1/2 -translate-x-1/2 bg-black py-2 text-3xl font-light whitespace-nowrap ${
+                ev.side === "top"
+                  ? "bottom-[calc(50%+32px)]"
+                  : "top-[calc(50%+32px)]"
+              }`}
+            >
+              {ev.year}
+            </span>
+
+            {/* Description */}
+            <div
+              class={`absolute w-[400px] text-lg leading-relaxed text-white/80 ${
+                ev.side === "top" ? "left-0" : "left-0"
+              }`}
+              style={
+                ev.side === "top"
+                  ? `bottom: calc(50% + ${ev.stemLength + 20}px);`
+                  : `top: calc(50% + ${ev.stemLength + 20}px);`
+              }
+              set:html={ev.html}
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Mobile: vertical stacked list -->
+    <div class="relative mt-16 flex flex-col gap-10 lg:hidden">
+      <div class="bg-accent/50 absolute top-0 bottom-0 left-[11px] w-px"></div>
+
+      {
+        events.map((ev) => (
+          <div class="relative pl-8">
+            <div class="bg-accent/50 absolute top-1 left-0 h-6 w-6 rounded-full" />
+            <span class="text-accent text-3xl font-light">{ev.year}</span>
+            <div
+              class="mt-2 text-lg leading-relaxed text-white/80"
+              set:html={ev.html}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

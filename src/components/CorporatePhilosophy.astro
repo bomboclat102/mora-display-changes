@@ -1,0 +1,58 @@
+---
+const paragraphs = [
+  "Mora Display works together with Korean companies so that they can demonstrate the highest level of competitiveness in the European market.",
+  "We do not simply build exhibition booths; we create exhibition spaces that can most effectively express a company's technological capabilities and brand value.",
+  "By resolving the various issues that arise during participation in overseas exhibitions—including administration, communication, and on-site operations—we believe in staying with our clients until the very end, so they can focus solely on the exhibition and achieve the best possible results.",
+  "Mora Display is the strongest partner, standing together with Korean companies in their successful global challenges.",
+];
+
+const credentials = [
+  "Lee Yoon Sil",
+  "Graduated from the Department of Landscape Architecture, Kyung Hee University",
+  "Master's in Interior Architecture, Graduate School of Urban Architecture, Hongik University",
+  'Thesis: "Methodology of Expression for Exhibition Spaces"',
+  "Exhibition Planning, SIGONGtech",
+  "Completed studies in the Department of Architecture, Politecnico di Milano",
+  "Founded Mora Display",
+  "Current Representative Director (CEO)",
+];
+
+import { Image } from "astro:assets";
+import ceoPortrait from "../assets/images/ceo-portrait.png";
+---
+
+<section class="relative bg-black px-8 py-32 text-white md:px-16">
+  <div class="mx-auto max-w-[1336px]">
+    <h2
+      id="corporate-philosophy"
+      class="font-heading text-accent text-5xl font-thin"
+    >
+      Corporate Philosophy
+    </h2>
+    <hr class="mt-12 max-w-[600px] border-white/20" />
+
+    <div class="mt-12 grid gap-16 md:grid-cols-2">
+      <!-- Left: philosophy text -->
+      <div
+        class="max-w-[600px] space-y-6 text-2xl leading-relaxed text-white/75"
+      >
+        {paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+
+      <!-- Right: portrait + credentials -->
+      <div class="flex flex-col items-end">
+        <Image
+          src={ceoPortrait}
+          alt="Lee Yoon Sil, CEO of Mora Display"
+          class="max-h-[400px] w-full max-w-[400px] object-cover object-top"
+        />
+
+        <div
+          class="border-accent mt-8 max-w-[450px] border-r-2 border-b-2 pr-8 pb-7 text-right leading-loose text-white/75"
+        >
+          {credentials.map((line) => <p>{line}</p>)}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
